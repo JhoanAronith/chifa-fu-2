@@ -1,0 +1,33 @@
+<footer th:fragment="footer" class="footer-container">
+    <div class="footer-content container">
+        <div class="footer-section about">
+            <h5>Chifa Restaurante</h5>
+            <p>Sabores auténticos de la cocina chino-peruana. Visítanos en nuestras sedes y disfruta cada bocado.</p>
+        </div>
+
+        <div class="footer-section links">
+            <h5>Enlaces</h5>
+            <ul>
+                <li><a th:href="@{/chifafu/public/inicio}">Inicio</a></li>
+                <li><a th:href="@{/chifafu/public/menu}">Menú</a></li>
+                <li><a th:href="@{/chifafu/public/nosotros}">Nosotros</a></li>
+                <li><a th:href="@{/chifafu/public/locales}">Locales</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section contact">
+            <h5>Contacto</h5>
+            <p><i class="fas fa-map-marker-alt me-2"></i> Lima, Perú</p>
+            <p><i class="fas fa-envelope me-2"></i> contacto@chifafu.com</p>
+            <p><i class="fas fa-phone me-2"></i> +51 930 247 283</p>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2025 Chifa Restaurante. Todos los derechos reservados.
+    </div>
+</footer>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Chifa Fu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/cssNavbar.css}"/>
+    <link rel="stylesheet" th:href="@{/cssFooter.css}"/>
+    <link rel="stylesheet" th:href="@{/cssInicio.css}"/>
+</head>
+
+<body class="bg-light">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Bienvenidos a Chifa Fu</h1>
+        <p>La fusión perfecta de la cocina peruana y china</p>
+    </div>
+</section>
+
+<!-- Carruseles -->
+<div class="container my-5">
+    <div class="row">
+
+        <!-- Carrusel 1 -->
+        <div class="col-md-6">
+            <div id="chifaCarousel1" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><img src="/plato1.jpg" class="d-block w-100" alt="Plato 1"></div>
+                    <div class="carousel-item"><img src="/plato2.jpg" class="d-block w-100" alt="Plato 2"></div>
+                    <div class="carousel-item"><img src="/plato3.jpg" class="d-block w-100" alt="Plato 3"></div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#chifaCarousel1"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#chifaCarousel1"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Carrusel 2 -->
+        <div class="col-md-6">
+            <div id="chifaCarousel2" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><img src="/plato4.jpg" class="d-block w-100" alt="Plato 4"></div>
+                    <div class="carousel-item"><img src="/plato5.jpg" class="d-block w-100" alt="Plato 5"></div>
+                    <div class="carousel-item"><img src="/plato6.jpg" class="d-block w-100" alt="Plato 6"></div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#chifaCarousel2"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#chifaCarousel2"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Introducción -->
+<section class="intro-section text-white py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Nuestra Historia</h2>
+        <p class="lead text-center">En Chifa Fu, fusionamos la tradición culinaria china con la riqueza de los sabores
+            peruanos...</p>
+        <p class="text-center">Nuestro compromiso es mantener viva la esencia del chifa...</p>
+    </div>
+</section>
+
+<!-- Platos Estrella -->
+<section class="highlight-section container">
+    <h2 class="section-title">Nuestros Platos Estrella</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card highlight-card"><img src="/estrella1.jpg" class="card-img-top">
+                <div class="card-body"><h5>Arroz Chaufa Especial</h5>
+                    <p>Una deliciosa mezcla de arroz...</p></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card highlight-card"><img src="/estrella2.jpg" class="card-img-top">
+                <div class="card-body"><h5>Tallarín Saltado</h5>
+                    <p>Fideos salteados con verduras frescas...</p></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card highlight-card"><img src="/estrella3.jpg" class="card-img-top">
+                <div class="card-body"><h5>Pollo Tipakay</h5>
+                    <p>Jugosos trozos de pollo bañados en salsa agridulce...</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonios -->
+<section class="testimonios-section py-5">
+    <div class="container">
+        <h2 class="text-center text-dark mb-4">Lo que dicen nuestros clientes</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="testimonial-card p-4 bg-dark text-white rounded"><p>"¡El mejor chifa!"</p><h6>– Mariana
+                    R.</h6></div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card p-4 bg-dark text-white rounded"><p>"Siempre regreso por el chaufa..."</p>
+                    <h6>– José Luis G.</h6></div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card p-4 bg-dark text-white rounded"><p>"Ambiente acogedor..."</p><h6>– Carla
+                    M.</h6></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Scripts de Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
+

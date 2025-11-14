@@ -1,0 +1,122 @@
+/* === General === */
+body {
+    background: #fff;
+    color: #111;
+}
+
+/* === Navbar === */
+.navbar {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-brand span {
+    font-size: 1.25rem;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #111 !important;
+    margin: 0 0.75rem;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #d35400 !important;
+}
+
+/* === Formulario de búsqueda === */
+.form-search {
+    margin: 0 1rem;
+    border-left: 1px solid #eee;
+    padding-left: 1rem;
+}
+
+.form-search .form-control {
+    background: #fff;
+    color: #111;
+    border: 1px solid #ced4da;
+    border-radius: 30px;
+}
+
+.form-search .form-control:focus {
+    border-color: #d35400;
+    box-shadow: 0 0 0 0.2rem rgba(211, 84, 0, 0.1);
+}
+
+.form-search .btn {
+    color: #d35400;
+    border-color: #d35400;
+    background: #fff;
+    border-radius: 30px;
+}
+
+.form-search .btn:hover {
+    background: #ffe5b4;
+    color: #b34700;
+    border-color: #b34700;
+}
+
+/* === Botones === */
+.btn-login,
+.btn-register,
+.btn-cart {
+    border-radius: 30px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-login,
+.btn-register {
+    background: #fff;
+    color: #d35400;
+    border: 1px solid #d35400;
+}
+
+.btn-login:hover,
+.btn-register:hover {
+    background: #ffe5b4;
+    color: #b34700;
+}
+
+.btn-cart {
+    background: #d35400;
+    color: #fff;
+    padding: 0.5rem 1.3rem;
+}
+
+.btn-cart:hover {
+    background: #b34700;
+}
+
+/* === Icono carrito animado === */
+.btn-cart i {
+    animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-3px); }
+}
+
+/* === Responsividad === */
+@media (max-width: 991.98px) {
+    .form-search {
+        margin: 1rem 0 0 0;
+        width: 100%;
+        border-left: none;
+        padding-left: 0;
+    }
+
+    .navbar-brand span {
+        display: none;
+    }
+
+    .d-flex.align-items-center.flex-wrap {
+        justify-content: center;
+    }
+}

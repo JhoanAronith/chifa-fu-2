@@ -1,0 +1,13 @@
+h2 {
+    color: #d35400;
+}
+
+label.form-label {
+    color: #555;
+}
+
+.btn-outline-dark:hover {
+    background-color: #d35400;
+    color: white;
+    border-color: #d35400;
+}
