@@ -70,4 +70,9 @@ public class ClienteController {
         return "redirect:/chifafu/cliente/perfil";
     }
 
+    @GetMapping("/pedidos")
+    public String mostrarPedidosCliente() {
+        return "cliente/pedidos";
+    }
+
 }
