@@ -47,33 +47,6 @@ Está implementado usando APIs modernas y un modelo de lenguaje actualizado, bri
 
 ---
 
-## 🛠️ Tecnologías Usadas
-
-### Backend
-- Spring Boot  
-- Maven  
-- Spring Web  
-- Spring Data JPA  
-- Spring Security  
-- Lombok  
-- MySQL Driver  
-- Thymeleaf  
-- API externa para el ChatBot IA  
-
-### Frontend
-- HTML5  
-- CSS3  
-- Bootstrap  
-- Thymeleaf  
-
-### Base de Datos
-- MySQL
-
-### Otros
-- Git & GitHub  
-- IntelliJ IDEA  
-
-
 ## 🧠 Arquitectura del Sistema
 
 El sistema está dividido en 3 capas principales:
@@ -84,14 +57,6 @@ El sistema está dividido en 3 capas principales:
 | **Lógica (Service/Controllers)** | Reglas del negocio, validaciones, flujos del sistema.                 |
 | **Datos (Repository + MySQL)**   | Gestión de entidades, consultas, persistencia y relaciones.           |
 
-Incluye además:
-
-* **Módulo de autenticación con Spring Security**
-* **Módulo de pedidos**
-* **Módulo de menú**
-* **Módulo de usuarios**
-* **Módulo de chatbot IA**
-* **Panel administrativo profesional**
 
 ---
 
