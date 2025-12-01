@@ -1,0 +1,63 @@
+/* ARCHIVO: cssSidebar.css
+   DESCRIPCIÓN: Estilos exclusivos para el menú lateral y el layout principal.
+*/
+
+:root {
+    --sidebar-width: 15rem;
+    --sidebar-bg: #343a40;      /* Color de fondo oscuro */
+    --sidebar-text: #cfd8dc;    /* Color de texto gris claro */
+    --sidebar-hover: #495057;   /* Color al pasar el mouse */
+    --primary-color: #0d6efd;   /* Color activo (azul bootstrap) */
+}
+
+/* --- 1. Layout Principal (Contenedor Padre) --- */
+#wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    overflow-x: hidden; /* Evita scroll horizontal indeseado */
+}
+
+#page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+    transition: all 0.25s ease;
+}
+
+/* --- 2. Estructura del Sidebar --- */
+/* Sidebar fijo y alto completo */
+#sidebar-wrapper {
+    width: 250px;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+main {
+    margin-left: 250px;
+}
+
+/* Hover del sidebar */
+.list-group-item:hover {
+    background-color: #343a40 !important;
+}
+
+/* Cards Dashboard */
+.card-dashboard {
+    transition: transform .2s, box-shadow .2s;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+}
+
+.card-dashboard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0,0,0,.15);
+    cursor: pointer;
+}
+
+.icon-large {
+    font-size: 3rem;
+    opacity: .7;
+}

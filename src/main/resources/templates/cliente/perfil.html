@@ -76,13 +76,6 @@
                 <a href="/chifafu/cliente/pedidos" class="btn btn-outline-dark px-4">
                     <i class="fas fa-receipt me-2"></i>Mis pedidos
                 </a>
-
-                <form th:action="@{/logout}" method="post" class="d-inline">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                    <button type="submit" class="btn btn-outline-danger px-4">
-                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
-                    </button>
-                </form>
             </div>
         </form>
     </div>

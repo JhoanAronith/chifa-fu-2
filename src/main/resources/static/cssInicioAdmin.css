@@ -1,0 +1,18 @@
+.card-dashboard {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.card-dashboard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    cursor: pointer;
+}
+
+/* Íconos grandes dentro de las tarjetas */
+.icon-large {
+    font-size: 3rem;
+    opacity: 0.8;
+}

@@ -13,4 +13,19 @@ public class AdministradorController {
         return "administrador/inicio";
     }
 
+    @GetMapping("/pedidos")
+    public String mostrarPedidos() {
+        return "administrador/pedidos";
+    }
+
+    @GetMapping("/menus")
+    public String mostrarMenus() {
+        return "administrador/menus";
+    }
+
+    @GetMapping("/locales")
+    public String mostrarLocales() {
+        return "administrador/locales";
+    }
+
 }
