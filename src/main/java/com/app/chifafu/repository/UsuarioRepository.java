@@ -89,8 +89,35 @@ public class UsuarioRepository implements UsuarioDAO {
 
     @Override
     public Optional<Usuario> obtenerPorEmail(String email) {
-        String sql = "SELECT * FROM usuario WHERE email = ?";
-        List<Usuario> usuarios = jdbcTemplate.query(sql, usuarioRowMapper, email);
+        String sql = "SELECT u.*, c.id_cliente, c.direccion, c.telefono, c.dni " +
+                "FROM usuario u " +
+                "LEFT JOIN cliente c ON u.id_usuario = c.id_usuario " +
+                "WHERE u.email = ?";
+
+        List<Usuario> usuarios = jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Usuario usuario = new Usuario();
+            usuario.setId_usuario(rs.getLong("id_usuario"));
+            usuario.setNombres(rs.getString("nombres"));
+            usuario.setEmail(rs.getString("email"));
+            usuario.setPassword(rs.getString("password"));
+            usuario.setRol(Usuario.Rol.valueOf(rs.getString("rol")));
+            usuario.setFecha_registro(rs.getTimestamp("fecha_registro"));
+
+            // Cargar cliente si existe
+            Long idCliente = rs.getLong("id_cliente");
+            if (idCliente != 0) {
+                Cliente cliente = new Cliente();
+                cliente.setId_cliente(idCliente);
+                cliente.setDireccion(rs.getString("direccion"));
+                cliente.setTelefono(rs.getString("telefono"));
+                cliente.setDni(rs.getString("dni"));
+                cliente.setUsuario(usuario);
+                usuario.setCliente(cliente);
+            }
+
+            return usuario;
+        }, email);
+
         return usuarios.stream().findFirst();
     }
 

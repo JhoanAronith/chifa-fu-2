@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Nuevo Local</title></head>
+<body>
+
+<h2>Registrar Local</h2>
+
+<form th:action="@{/chifafu/admin/locales/guardar}" th:object="${local}" method="post">
+
+    <input type="text" th:field="*{nombre}" placeholder="Nombre" required/><br>
+    <input type="text" th:field="*{direccion}" placeholder="Dirección" required/><br>
+    <input type="text" th:field="*{distrito}" placeholder="Distrito"/><br>
+    <input type="text" th:field="*{telefono}" placeholder="Teléfono"/><br>
+    <input type="text" th:field="*{horario}" placeholder="Horario"/><br>
+    <input type="number" th:field="*{capacidad}" placeholder="Capacidad"/><br>
+
+    <label><input type="checkbox" th:field="*{activo}"/> Activo</label><br>
+    <label><input type="checkbox" th:field="*{acepta_delivery}"/> Delivery</label><br>
+    <label><input type="checkbox" th:field="*{acepta_recojo}"/> Recojo</label><br>
+
+    <button type="submit">Guardar</button>
+</form>
+
+</body>
+</html>

@@ -32,6 +32,25 @@ public class ClienteRepository implements ClienteDAO {
         return cliente;
     };
 
+    // RowMapper con datos del usuario incluidos
+    private final RowMapper<Cliente> clienteConUsuarioRowMapper = (rs, rowNum) -> {
+        Usuario usuario = new Usuario();
+        usuario.setId_usuario(rs.getLong("id_usuario"));
+        usuario.setNombres(rs.getString("nombres"));
+        usuario.setEmail(rs.getString("email"));
+        usuario.setPassword(rs.getString("password"));
+        usuario.setRol(Usuario.Rol.valueOf(rs.getString("rol")));
+        usuario.setFecha_registro(rs.getTimestamp("fecha_registro"));
+
+        Cliente cliente = new Cliente();
+        cliente.setId_cliente(rs.getLong("id_cliente"));
+        cliente.setDireccion(rs.getString("direccion"));
+        cliente.setTelefono(rs.getString("telefono"));
+        cliente.setDni(rs.getString("dni"));
+        cliente.setUsuario(usuario);
+
+        return cliente;
+    };
 
     @Override
     public void crearCliente(Cliente cliente) {
@@ -46,28 +65,43 @@ public class ClienteRepository implements ClienteDAO {
 
     @Override
     public List<Cliente> listarClientes() {
-        String sql = "SELECT * FROM cliente";
-        return jdbcTemplate.query(sql, clienteRowMapper);
+        String sql = "SELECT c.id_cliente, c.direccion, c.telefono, c.dni, " +
+                "u.id_usuario, u.nombres, u.email, u.password, u.rol, u.fecha_registro " +
+                "FROM cliente c " +
+                "JOIN usuario u ON c.id_usuario = u.id_usuario";
+        return jdbcTemplate.query(sql, clienteConUsuarioRowMapper);
     }
 
     @Override
     public Optional<Cliente> obtenerPorDni(Long dni) {
-        String sql = "SELECT * FROM cliente WHERE dni = ?)";
-        List<Cliente> clientes = jdbcTemplate.query(sql, clienteRowMapper, dni);
+        String sql = "SELECT c.id_cliente, c.direccion, c.telefono, c.dni, " +
+                "u.id_usuario, u.nombres, u.email, u.password, u.rol, u.fecha_registro " +
+                "FROM cliente c " +
+                "JOIN usuario u ON c.id_usuario = u.id_usuario " +
+                "WHERE c.dni = ?";
+        List<Cliente> clientes = jdbcTemplate.query(sql, clienteConUsuarioRowMapper, dni);
         return clientes.stream().findFirst();
     }
 
     @Override
     public Optional<Cliente> obtenerPorId(Long id) {
-        String sql = "SELECT * FROM cliente WHERE id_cliente = ?";
-        List<Cliente> clientes = jdbcTemplate.query(sql, clienteRowMapper, id);
+        String sql = "SELECT c.id_cliente, c.direccion, c.telefono, c.dni, " +
+                "u.id_usuario, u.nombres, u.email, u.password, u.rol, u.fecha_registro " +
+                "FROM cliente c " +
+                "JOIN usuario u ON c.id_usuario = u.id_usuario " +
+                "WHERE c.id_cliente = ?";
+        List<Cliente> clientes = jdbcTemplate.query(sql, clienteConUsuarioRowMapper, id);
         return clientes.stream().findFirst();
     }
 
     @Override
     public Optional<Cliente> obtenerPorUsuarioId(Long idUsuario) {
-        String sql = "SELECT * FROM cliente WHERE id_usuario = ?";
-        List<Cliente> clientes = jdbcTemplate.query(sql, clienteRowMapper, idUsuario);
+        String sql = "SELECT c.id_cliente, c.direccion, c.telefono, c.dni, " +
+                "u.id_usuario, u.nombres, u.email, u.password, u.rol, u.fecha_registro " +
+                "FROM cliente c " +
+                "JOIN usuario u ON c.id_usuario = u.id_usuario " +
+                "WHERE c.id_usuario = ?";
+        List<Cliente> clientes = jdbcTemplate.query(sql, clienteConUsuarioRowMapper, idUsuario);
         return clientes.stream().findFirst();
     }
 
@@ -85,5 +119,17 @@ public class ClienteRepository implements ClienteDAO {
     public int eliminarCliente(Long id) {
         String sql = "DELETE FROM cliente WHERE id_cliente = ?";
         return jdbcTemplate.update(sql, id);
+    }
+
+    @Override
+    public Cliente buscarPorEmail(String email) {
+        String sql = "SELECT c.id_cliente, c.direccion, c.telefono, c.dni, " +
+                "u.id_usuario, u.nombres, u.email, u.password, u.rol, u.fecha_registro " +
+                "FROM cliente c " +
+                "JOIN usuario u ON c.id_usuario = u.id_usuario " +
+                "WHERE u.email = ?";
+
+        List<Cliente> clientes = jdbcTemplate.query(sql, clienteConUsuarioRowMapper, email);
+        return clientes.isEmpty() ? null : clientes.get(0);
     }
 }

@@ -41,6 +41,8 @@ public class SecurityConfig {
                     .authorizeHttpRequests(auth -> auth
                             .requestMatchers(
                                     "/chifafu/public/**",
+                                    "/chifafu/public/menu/detalle/**",
+                                    "/chifafu/public/locales",
                                     "/**.png",
                                     "/**.css",
                                     "/**.jpg",

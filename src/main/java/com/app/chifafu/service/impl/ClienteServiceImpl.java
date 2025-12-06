@@ -61,4 +61,9 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteDAO.eliminarCliente(id);
     }
 
+    @Override
+    public Cliente buscarPorEmail(String email) {
+        return clienteDAO.buscarPorEmail(email);
+    }
+
 }

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${accion} + ' Plato | Chifa Fu'"></title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- CSS del sidebar -->
+    <link th:href="@{/cssSidebar.css}" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f1f3f5;
+        }
+
+        #page-content-wrapper {
+            background-color: #f1f3f5;
+            min-height: 100vh;
+        }
+
+        .card {
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Wrapper contenedor -->
+<div id="wrapper" class="d-flex">
+
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Contenido principal -->
+    <div id="page-content-wrapper" class="flex-grow-1">
+        <div class="container-fluid p-4">
+
+            <div class="d-flex align-items-center mb-4">
+                <a th:href="@{/chifafu/admin/menu}" class="btn btn-outline-secondary me-3">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <h2 class="fw-bold mb-0" th:text="${accion} + ' Plato'"></h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="card p-4">
+                        <form th:action="${menuDTO.id_menu != null} ?
+                 @{/chifafu/admin/menu/actualizar} :
+                 @{/chifafu/admin/menu/guardar}"
+                              th:object="${menuDTO}"
+                              method="post">
+
+                            <!-- Campos ocultos -->
+                            <input type="hidden" th:field="*{id_menu}">
+                            <input type="hidden" th:field="*{cantidad_vendida}">
+                            <input type="hidden" th:field="*{total_ingresos}">
+
+                            <h5 class="mb-3 text-primary">Información Básica</h5>
+
+                            <div class="row">
+                                <div class="col-md-8 mb-3">
+                                    <label for="nombre" class="form-label">Nombre del Plato <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="nombre"
+                                           th:field="*{nombre}"
+                                           placeholder="Ej: Aeropuerto, Chaufa Mixta"
+                                           required maxlength="100">
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="categoriaId" class="form-label">Categoría <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select"
+                                            id="categoriaId"
+                                            name="categoriaId"
+                                            required>
+                                        <option value="">Seleccione...</option>
+                                        <option th:each="cat : ${categorias}"
+                                                th:value="${cat.id_categoria}"
+                                                th:text="${cat.nombre}"
+                                                th:selected="${menuDTO.categoriaId != null && menuDTO.categoriaId == cat.id_categoria}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control"
+                                          id="descripcion"
+                                          th:field="*{descripcion}"
+                                          rows="3"
+                                          placeholder="Descripción del plato"
+                                          maxlength="500"></textarea>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="precio" class="form-label">Precio (S/) <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="precio"
+                                           th:field="*{precio}"
+                                           step="0.01"
+                                           min="0"
+                                           required>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="orden" class="form-label">Orden</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="orden"
+                                           th:field="*{orden}"
+                                           min="0">
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label for="tiempo_preparacion" class="form-label">Tiempo de preparación
+                                        (min)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="tiempo_preparacion"
+                                           th:field="*{tiempo_preparacion}"
+                                           min="0"
+                                           placeholder="0">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ruta_imagen" class="form-label">Ruta de Imagen</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="ruta_imagen"
+                                       th:field="*{ruta_imagen}"
+                                       placeholder="/plato.jpg">
+                                <small class="text-muted">Coloca la imagen en /static/</small>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <h5 class="mb-3 text-primary">Promoción</h5>
+
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <div class="form-check form-switch mt-4">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="en_promocion"
+                                               th:field="*{en_promocion}">
+                                        <label class="form-check-label" for="en_promocion">En Promoción</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="precio_promocion" class="form-label">Precio Promo (S/)</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="precio_promocion"
+                                           th:field="*{precio_promocion}"
+                                           step="0.01"
+                                           min="0">
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="fecha_inicio_promocion" class="form-label">Inicio Promo</label>
+                                    <input type="date"
+                                           class="form-control"
+                                           id="fecha_inicio_promocion"
+                                           th:field="*{fecha_inicio_promocion}">
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="fecha_fin_promocion" class="form-label">Fin Promo</label>
+                                    <input type="date"
+                                           class="form-control"
+                                           id="fecha_fin_promocion"
+                                           th:field="*{fecha_fin_promocion}">
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <h5 class="mb-3 text-primary">Opciones</h5>
+
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="disponible"
+                                               th:field="*{disponible}">
+                                        <label class="form-check-label" for="disponible">Disponible</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="es_recomendado"
+                                               th:field="*{es_recomendado}">
+                                        <label class="form-check-label" for="es_recomendado">Recomendado</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="es_nuevo"
+                                               th:field="*{es_nuevo}">
+                                        <label class="form-check-label" for="es_nuevo">Nuevo</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="es_popular"
+                                               th:field="*{es_popular}">
+                                        <label class="form-check-label" for="es_popular">Popular</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="disponible_delivery"
+                                               th:field="*{disponible_delivery}">
+                                        <label class="form-check-label" for="disponible_delivery">Disponible
+                                            Delivery</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="disponible_local"
+                                               th:field="*{disponible_local}">
+                                        <label class="form-check-label" for="disponible_local">Disponible en
+                                            Local</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="requiere_inventario"
+                                               th:field="*{requiere_inventario}">
+                                        <label class="form-check-label" for="requiere_inventario">Requiere
+                                            Inventario</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="stock" class="form-label">Stock</label>
+                                    <input type="number"
+                                           class="form-control"
+                                           id="stock"
+                                           th:field="*{stock}"
+                                           min="0">
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between pt-3">
+                                <a th:href="@{/chifafu/admin/menu}" class="btn btn-secondary">
+                                    <i class="bi bi-x-circle me-2"></i>Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-circle me-2"></i>Guardar
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

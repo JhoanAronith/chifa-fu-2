@@ -24,6 +24,8 @@ public class Usuario {
     private Rol rol;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha_registro;
+    @OneToOne(mappedBy = "usuario", fetch = FetchType.LAZY)
+    private Cliente cliente;
 
     public Usuario() {
     }

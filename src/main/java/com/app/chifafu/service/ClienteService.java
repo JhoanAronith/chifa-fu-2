@@ -20,4 +20,6 @@ public interface ClienteService {
 
     int eliminarCliente(Long id);
 
+    Cliente buscarPorEmail(String email);
+
 }

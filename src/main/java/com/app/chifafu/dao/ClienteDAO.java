@@ -21,4 +21,5 @@ public interface ClienteDAO {
 
     int eliminarCliente(Long id);
 
+    Cliente buscarPorEmail(String email);
 }

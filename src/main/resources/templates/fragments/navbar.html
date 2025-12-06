@@ -52,8 +52,10 @@
 
                     <!-- Si está autenticado -->
                     <div sec:authorize="isAuthenticated()" class="d-flex align-items-center ms-2">
-                        <a class="btn btn-cart ms-2" th:href="@{/chifafu/cliente/carrito}">
-                            <i class="fas fa-shopping-cart me-1"></i>Carrito
+                        <a class="btn btn-cart ms-2"
+                           sec:authorize="isAuthenticated()"
+                           th:href="@{/chifafu/cliente/carrito/{id}(id=${#authentication.principal.usuario.cliente != null ? #authentication.principal.usuario.cliente.id_cliente : 0})}">
+                            <i class="fas fa-shopping-cart me-1"></i> Carrito
                         </a>
 
                         <a th:if="${#authorization.expression('hasAuthority(''CLIENTE'')')}"

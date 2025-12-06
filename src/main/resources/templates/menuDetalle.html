@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title th:text="${menu.nombre}">Detalle | Chifa Fu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Tus estilos -->
+    <link rel="stylesheet" th:href="@{/cssNavbar.css}">
+    <link rel="stylesheet" th:href="@{/cssFooter.css}">
+</head>
+
+<body class="bg-light">
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+
+    <a th:href="@{/chifafu/public/menu}" class="btn btn-outline-secondary mb-3">
+        <i class="fa fa-arrow-left"></i> Volver
+    </a>
+
+    <div class="row">
+
+        <!-- Imagen -->
+        <div class="col-md-5">
+            <img th:src="@{${menu.ruta_imagen}}"
+                 class="img-fluid rounded shadow">
+        </div>
+
+        <!-- Información -->
+        <div class="col-md-7">
+            <h2 th:text="${menu.nombre}"></h2>
+
+            <p class="text-muted" th:text="${menu.descripcion}"></p>
+
+            <!-- Precio -->
+            <div class="mt-3">
+                <span th:if="${menu.promocionActiva()}"
+                      class="text-danger fw-bold fs-4">
+                      S/ <span th:text="${menu.precio_promocion}"></span>
+                </span>
+
+                <span th:unless="${menu.promocionActiva()}"
+                      class="fs-4 fw-semibold">
+                      S/ <span th:text="${menu.precio}"></span>
+                </span>
+            </div>
+
+            <p class="mt-3">
+                <strong>Categoría:</strong>
+                <span th:text="${menu.categoria.nombre}"></span>
+            </p>
+
+            <p>
+                <strong>Tiempo de preparación:</strong>
+                <span th:text="${menu.tiempo_preparacion}"></span> min
+            </p>
+
+            <!-- Botones -->
+            <div class="mt-4">
+
+                <form th:if="${#authentication.principal != null}"
+                      th:action="@{/carrito/agregar}" method="post">
+                    <input type="hidden" name="idMenu" th:value="${menu.id_menu}">
+                    <button class="btn btn-primary btn-lg">
+                        <i class="fa fa-cart-plus"></i> Agregar al carrito
+                    </button>
+                </form>
+
+                <a th:if="${#authentication.principal == null}"
+                   th:href="@{/login}"
+                   class="btn btn-primary btn-lg">
+                    <i class="fa fa-user"></i> Inicia sesión para comprar
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

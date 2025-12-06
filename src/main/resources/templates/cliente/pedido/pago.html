@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Pago | Chifa Fu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5>Método de Pago - Pedido #<span th:text="${pedido.numero_pedido}"></span></h5>
+                </div>
+                <div class="card-body">
+
+                    <!-- RESUMEN PEDIDO -->
+                    <div class="alert alert-info mb-4">
+                        <h6>Resumen del Pedido:</h6>
+                        <ul class="mb-0">
+                            <li th:if="${pedido.isDelivery()}">
+                                <strong>Entrega:</strong> A domicilio - <span th:text="${pedido.direccion.calle + ' ' + pedido.direccion.numero + ', ' + pedido.direccion.distrito}"></span>
+                            </li>
+                            <li th:if="${pedido.isRecojoLocal()}">
+                                <strong>Entrega:</strong> Recoger en <span th:text="${pedido.local.nombre}"></span>
+                            </li>
+                            <li><strong>Total a Pagar:</strong> <span class="text-success fw-bold" th:text="${'S/. ' + #numbers.formatDecimal(total, 1, 2)}"></span></li>
+                        </ul>
+                    </div>
+
+                    <!-- DETALLES ITEMS -->
+                    <h6 class="mb-3">Items del Pedido:</h6>
+                    <table class="table table-sm table-hover">
+                        <tbody>
+                        <tr th:each="detalle : ${detalles}">
+                            <td th:text="${detalle.menu.nombre}"></td>
+                            <td class="text-end" th:text="${detalle.cantidad + ' x S/. ' + #numbers.formatDecimal(detalle.precio_unitario, 1, 2)}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- FORMULARIO PAGO -->
+                    <form th:action="@{/chifafu/cliente/pedido/{idPedido}/procesar-pago(idPedido=${pedido.id_pedido})}" method="post">
+
+                        <h6 class="mt-4 mb-3">Selecciona Método de Pago:</h6>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metodo_pago" value="EFECTIVO" id="efectivo" checked>
+                                <label class="form-check-label" for="efectivo">
+                                    <i class="fas fa-money-bill"></i> Efectivo
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metodo_pago" value="TARJETA" id="tarjeta">
+                                <label class="form-check-label" for="tarjeta">
+                                    <i class="fas fa-credit-card"></i> Tarjeta
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metodo_pago" value="YAPE" id="yape">
+                                <label class="form-check-label" for="yape">
+                                    <i class="fas fa-mobile-alt"></i> Yape
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metodo_pago" value="PLIN" id="plin">
+                                <label class="form-check-label" for="plin">
+                                    <i class="fas fa-mobile-alt"></i> Plin
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metodo_pago" value="TRANSFERENCIA" id="transferencia">
+                                <label class="form-check-label" for="transferencia">
+                                    <i class="fas fa-university"></i> Transferencia
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Número de Transacción (opcional)</label>
+                            <input type="text" class="form-control" name="numero_transaccion" placeholder="ej: 12345678">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Comprobante (opcional)</label>
+                            <input type="text" class="form-control" name="comprobante" placeholder="ej: Referencia del banco">
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a th:href="@{/chifafu/cliente/pedido/{idPedido}/completar(idPedido=${pedido.id_pedido})}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Atrás
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-check me-2"></i>Confirmar Pago
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

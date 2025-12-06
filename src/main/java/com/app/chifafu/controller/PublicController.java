@@ -108,14 +108,4 @@ public class PublicController {
         return "redirect:/chifafu/public/login";
     }
 
-    @GetMapping("/menu")
-    public String mostrarMenu() {
-        return "menu";
-    }
-
-    @GetMapping("/locales")
-    public String mostrarLocales() {
-        return "locales";
-    }
-
 }
