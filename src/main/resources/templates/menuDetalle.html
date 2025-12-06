@@ -1,96 +1,137 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head>
     <title th:text="${menu.nombre}">Detalle | Chifa Fu</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <!-- Tus estilos -->
-    <link rel="stylesheet" th:href="@{/cssNavbar.css}">
-    <link rel="stylesheet" th:href="@{/cssFooter.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/cssNavbar.css}"/>
+    <link rel="stylesheet" th:href="@{/cssFooter.css}"/>
+    <style>
+        .product-image { border-radius: 15px; }
+        .info-badge { background-color: #f8f9fa; border-left: 4px solid #dc3545; }
+    </style>
 </head>
-
 <body class="bg-light">
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div class="container mt-4">
+<div class="container py-5">
 
-    <a th:href="@{/chifafu/public/menu}" class="btn btn-outline-secondary mb-3">
-        <i class="fa fa-arrow-left"></i> Volver
-    </a>
+    <!-- Botón volver -->
+    <div class="mb-4">
+        <a th:href="@{/chifafu/public/menu}" class="btn btn-outline-secondary">
+            <i class="fa fa-arrow-left me-2"></i> Volver al Menú
+        </a>
+    </div>
 
-    <div class="row">
+    <!-- Contenido principal -->
+    <div class="row g-4">
 
         <!-- Imagen -->
         <div class="col-md-5">
-            <img th:src="@{${menu.ruta_imagen}}"
-                 class="img-fluid rounded shadow">
+            <div class="card shadow-sm">
+                <img th:src="@{${menu.ruta_imagen}}"
+                     class="card-img product-image"
+                     style="height: 400px; object-fit: cover;"
+                     alt="Imagen del plato">
+            </div>
         </div>
 
         <!-- Información -->
         <div class="col-md-7">
-            <h2 th:text="${menu.nombre}"></h2>
+            <div class="card shadow-sm h-100">
+                <div class="card-body p-4">
 
-            <p class="text-muted" th:text="${menu.descripcion}"></p>
+                    <!-- Título -->
+                    <h2 class="fw-bold mb-3" th:text="${menu.nombre}">
+                        Nombre del plato
+                    </h2>
 
-            <!-- Precio -->
-            <div class="mt-3">
-                <span th:if="${menu.promocionActiva()}"
-                      class="text-danger fw-bold fs-4">
-                      S/ <span th:text="${menu.precio_promocion}"></span>
-                </span>
+                    <!-- Descripción -->
+                    <p class="text-muted lead mb-4" th:text="${menu.descripcion}">
+                        Descripción del plato
+                    </p>
 
-                <span th:unless="${menu.promocionActiva()}"
-                      class="fs-4 fw-semibold">
-                      S/ <span th:text="${menu.precio}"></span>
-                </span>
+                    <!-- Precio -->
+                    <div class="mb-4 p-3 bg-light rounded">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-tag text-danger fs-4 me-3"></i>
+                            <div>
+                                <small class="text-muted d-block">Precio</small>
+                                <span th:if="${menu.promocionActiva()}"
+                                      class="text-danger fw-bold fs-3">
+                                    S/ <span th:text="${menu.precio_promocion}"></span>
+                                </span>
+                                <span th:unless="${menu.promocionActiva()}"
+                                      class="fw-bold fs-3 text-dark">
+                                    S/ <span th:text="${menu.precio}"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información adicional -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="info-badge p-3 rounded">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-list text-danger me-3"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Categoría</small>
+                                        <strong th:text="${menu.categoria.nombre}">Categoría</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="info-badge p-3 rounded">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-clock text-danger me-3"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Tiempo de preparación</small>
+                                        <strong><span th:text="${menu.tiempo_preparacion}">0</span> minutos</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="d-grid gap-2">
+                        <form sec:authorize="isAuthenticated()"
+                              th:action="@{/chifafu/cliente/carrito/{id}/agregar(id=${#authentication.principal.usuario.cliente.id_cliente})}"
+                              method="post">
+                            <input type="hidden" name="idMenu" th:value="${menu.id_menu}">
+                            <button type="submit" class="btn btn-danger btn-lg w-100">
+                                <i class="fa fa-cart-plus me-2"></i> Agregar al carrito
+                            </button>
+                        </form>
+
+                        <a sec:authorize="isAnonymous()"
+                           th:href="@{/login}"
+                           class="btn btn-primary btn-lg">
+                            <i class="fa fa-sign-in-alt me-2"></i> Inicia sesión para comprar
+                        </a>
+                    </div>
+
+                </div>
             </div>
-
-            <p class="mt-3">
-                <strong>Categoría:</strong>
-                <span th:text="${menu.categoria.nombre}"></span>
-            </p>
-
-            <p>
-                <strong>Tiempo de preparación:</strong>
-                <span th:text="${menu.tiempo_preparacion}"></span> min
-            </p>
-
-            <!-- Botones -->
-            <div class="mt-4">
-
-                <form th:if="${#authentication.principal != null}"
-                      th:action="@{/carrito/agregar}" method="post">
-                    <input type="hidden" name="idMenu" th:value="${menu.id_menu}">
-                    <button class="btn btn-primary btn-lg">
-                        <i class="fa fa-cart-plus"></i> Agregar al carrito
-                    </button>
-                </form>
-
-                <a th:if="${#authentication.principal == null}"
-                   th:href="@{/login}"
-                   class="btn btn-primary btn-lg">
-                    <i class="fa fa-user"></i> Inicia sesión para comprar
-                </a>
-
-            </div>
-
         </div>
+
     </div>
 
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>

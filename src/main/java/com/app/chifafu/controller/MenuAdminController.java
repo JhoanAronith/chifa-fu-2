@@ -111,7 +111,6 @@ public class MenuAdminController {
 
         Menu menu = menuOpt.get();
 
-        // Convertir entidad → DTO
         MenuDTO dto = new MenuDTO();
         dto.setId_menu(menu.getId_menu());
         dto.setNombre(menu.getNombre());
@@ -128,11 +127,7 @@ public class MenuAdminController {
         dto.setEs_popular(menu.getEs_popular());
         dto.setRequiere_inventario(menu.getRequiere_inventario());
         dto.setStock(menu.getStock());
-
-        // categoría
         dto.setCategoriaId(menu.getCategoria().getId_categoria());
-
-        // promoción
         dto.setEn_promocion(menu.getEn_promocion());
         dto.setPrecio_promocion(menu.getPrecio_promocion());
 
@@ -152,7 +147,7 @@ public class MenuAdminController {
         return "administrador/menu/formulario";
     }
 
-
+    //Editar un menú
     @PostMapping("/actualizar")
     public String actualizarMenu(@ModelAttribute("menuDTO") MenuDTO dto,
                                  RedirectAttributes redirectAttributes,
@@ -175,17 +170,12 @@ public class MenuAdminController {
             menu.setEs_popular(dto.getEs_popular());
             menu.setRequiere_inventario(dto.getRequiere_inventario());
             menu.setStock(dto.getStock());
-
             Categoria categoria = categoriaService.obtenerPorId(dto.getCategoriaId())
                     .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
-
             menu.setCategoria(categoria);
-
             menu.setEn_promocion(dto.getEn_promocion());
             menu.setPrecio_promocion(dto.getPrecio_promocion());
-
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
             if (Boolean.TRUE.equals(dto.getEn_promocion())) {
                 if (dto.getFecha_inicio_promocion() != null && !dto.getFecha_inicio_promocion().isBlank()) {
                     menu.setFecha_inicio_promocion(sdf.parse(dto.getFecha_inicio_promocion()));
@@ -194,21 +184,16 @@ public class MenuAdminController {
                     menu.setFecha_fin_promocion(sdf.parse(dto.getFecha_fin_promocion()));
                 }
             }
-
             menuService.actualizarMenu(menu);
-
             redirectAttributes.addFlashAttribute("mensaje", "Plato actualizado exitosamente");
             redirectAttributes.addFlashAttribute("tipoMensaje", "success");
-
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("mensaje", "Error: " + e.getMessage());
             redirectAttributes.addFlashAttribute("tipoMensaje", "error");
             return "redirect:/chifafu/admin/menu";
         }
-
         return "redirect:/chifafu/admin/menu";
     }
-
 
     // Eliminar plato
     @GetMapping("/eliminar/{id}")

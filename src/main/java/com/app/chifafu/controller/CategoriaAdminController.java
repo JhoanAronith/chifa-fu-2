@@ -45,7 +45,6 @@ public class CategoriaAdminController {
         if (result.hasErrors()) {
             return "administrador/categorias/formulario";
         }
-
         try {
             categoriaService.crearCategoria(categoria);
             redirectAttributes.addFlashAttribute("mensaje", "Categoría creada exitosamente");
@@ -54,7 +53,6 @@ public class CategoriaAdminController {
             redirectAttributes.addFlashAttribute("mensaje", "Error al crear la categoría: " + e.getMessage());
             redirectAttributes.addFlashAttribute("tipoMensaje", "error");
         }
-
         return "redirect:/chifafu/admin/categorias";
     }
 
@@ -141,7 +139,6 @@ public class CategoriaAdminController {
             redirectAttributes.addFlashAttribute("mensaje", "Error al desactivar la categoría: " + e.getMessage());
             redirectAttributes.addFlashAttribute("tipoMensaje", "error");
         }
-
         return "redirect:/chifafu/admin/categorias";
     }
 }

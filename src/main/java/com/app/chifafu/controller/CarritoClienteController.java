@@ -6,7 +6,6 @@ import com.app.chifafu.service.CarritoService;
 import com.app.chifafu.service.ClienteService;
 import com.app.chifafu.service.DetalleCarritoService;
 import com.app.chifafu.service.MenuService;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,12 +32,12 @@ public class CarritoClienteController {
         this.menuService = menuService;
     }
 
+    //Mostrar carrito del cliente
     @GetMapping("/{idCliente}")
     public String mostrarCarrito(@PathVariable Long idCliente,
                                  Model model,
                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        // Validar que el usuario logueado es dueño del carrito
         if (!userDetails.getUsuario().getCliente().getId_cliente().equals(idCliente)) {
             return "redirect:/error";
         }
@@ -59,6 +58,7 @@ public class CarritoClienteController {
         return "cliente/carrito";
     }
 
+    //Agregar productos al carrito
     @PostMapping("/{idCliente}/agregar")
     public String agregarProducto(
             @PathVariable Long idCliente,
@@ -66,7 +66,6 @@ public class CarritoClienteController {
             @RequestParam(defaultValue = "1") Integer cantidad,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        // Validar que el usuario logueado es dueño del carrito
         if (!userDetails.getUsuario().getCliente().getId_cliente().equals(idCliente)) {
             return "redirect:/error";
         }
@@ -79,7 +78,6 @@ public class CarritoClienteController {
         List<DetalleCarrito> detalles =
                 detalleService.listarPorCarrito(carrito.getId_carrito());
 
-        // Si ya existe, aumenta la cantidad
         for (DetalleCarrito d : detalles) {
             if (d.getMenu().getId_menu().equals(idMenu)) {
                 d.setCantidad(d.getCantidad() + cantidad);
@@ -88,7 +86,6 @@ public class CarritoClienteController {
             }
         }
 
-        // Nuevo item
         DetalleCarrito nuevo = new DetalleCarrito();
         nuevo.setCarrito(carrito);
         nuevo.setMenu(menu);
@@ -101,7 +98,7 @@ public class CarritoClienteController {
     }
 
 
-    // ACTUALIZAR CANTIDAD
+    // Actualizar la cantidad de un item
     @PostMapping("/{idDetalle}/actualizar")
     public String actualizarCantidad(
             @PathVariable Long idDetalle,
@@ -109,17 +106,14 @@ public class CarritoClienteController {
             @RequestParam Integer cantidad,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        // Validar que el usuario tiene cliente
         if (userDetails.getUsuario().getCliente() == null) {
             return "redirect:/chifafu/cliente/perfil";
         }
 
-        // Validar que el usuario logueado es dueño del carrito
         if (!userDetails.getUsuario().getCliente().getId_cliente().equals(idCliente)) {
             return "redirect:/error";
         }
 
-        // Validar cantidad
         if (cantidad < 1) {
             return "redirect:/chifafu/cliente/carrito/" + idCliente;
         }
@@ -132,7 +126,7 @@ public class CarritoClienteController {
         return "redirect:/chifafu/cliente/carrito/" + idCliente;
     }
 
-    // ELIMINAR ITEM
+    // Eliminar un item del carrito
     @PostMapping("/detalle/{idDetalle}/eliminar")
     public String eliminarDetalle(@PathVariable Long idDetalle, @RequestParam Long idCliente) {
         detalleService.eliminar(idDetalle);

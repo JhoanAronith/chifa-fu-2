@@ -17,9 +17,11 @@ public class LocalPublicController {
         this.localService = localService;
     }
 
+    //Mostrar todos los locales al usuario
     @GetMapping
     public String listarLocales(Model model) {
         model.addAttribute("locales", localService.listarLocales());
         return "locales";
     }
+
 }

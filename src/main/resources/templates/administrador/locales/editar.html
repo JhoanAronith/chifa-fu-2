@@ -1,25 +1,193 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head><title>Editar Local</title></head>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar Local | Chifa Fu</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- CSS del sidebar -->
+    <link th:href="@{/cssSidebar.css}" rel="stylesheet">
+</head>
 <body>
+<div id="wrapper" class="d-flex">
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    <div id="page-content-wrapper" class="flex-grow-1">
+        <div class="container-fluid p-4">
 
-<h2>Registrar Local</h2>
-<form th:action="@{/chifafu/admin/locales/actualizar}" th:object="${local}" method="post">
+            <!-- Título -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="fw-bold">
+                        <i class="bi bi-shop me-2 text-danger"></i>Editar Local
+                    </h2>
+                    <p class="text-muted mb-0">Actualiza la información del local</p>
+                </div>
+                <a th:href="@{/chifafu/admin/locales}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Volver
+                </a>
+            </div>
 
-    <input type="hidden" th:field="*{id_local}"/>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
 
-    <input type="text" th:field="*{nombre}" required/><br>
-    <input type="text" th:field="*{direccion}" required/><br>
-    <input type="text" th:field="*{distrito}"/><br>
-    <input type="text" th:field="*{telefono}"/><br>
-    <input type="text" th:field="*{horario}"/><br>
-    <input type="number" th:field="*{capacidad}"/><br>
+                    <!-- Formulario -->
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-dark text-white py-3">
+                            <h6 class="mb-0">
+                                <i class="bi bi-pencil-square me-2"></i>Información del Local
+                            </h6>
+                        </div>
+                        <div class="card-body p-4">
 
-    <label><input type="checkbox" th:field="*{activo}"/> Activo</label><br>
-    <label><input type="checkbox" th:field="*{acepta_delivery}"/> Delivery</label><br>
-    <label><input type="checkbox" th:field="*{acepta_recojo}"/> Recojo</label><br>
+                            <form th:action="@{/chifafu/admin/locales/actualizar}"
+                                  th:object="${local}"
+                                  method="post">
 
-    <button type="submit">Actualizar</button>
-</form>
+                                <!-- ID oculto -->
+                                <input type="hidden" th:field="*{id_local}"/>
+
+                                <!-- Información Básica -->
+                                <h6 class="fw-bold mb-3 text-danger">
+                                    <i class="bi bi-info-circle me-2"></i>Información Básica
+                                </h6>
+
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">
+                                            Nombre del Local <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text"
+                                               class="form-control"
+                                               th:field="*{nombre}"
+                                               required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">
+                                            Distrito
+                                        </label>
+                                        <input type="text"
+                                               class="form-control"
+                                               th:field="*{distrito}">
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">
+                                        Dirección <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           th:field="*{direccion}"
+                                           required>
+                                </div>
+
+                                <hr class="my-4">
+
+                                <!-- Información de Contacto -->
+                                <h6 class="fw-bold mb-3 text-danger">
+                                    <i class="bi bi-telephone me-2"></i>Información de Contacto
+                                </h6>
+
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">
+                                            Teléfono
+                                        </label>
+                                        <input type="text"
+                                               class="form-control"
+                                               th:field="*{telefono}">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">
+                                            Horario
+                                        </label>
+                                        <input type="text"
+                                               class="form-control"
+                                               th:field="*{horario}">
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">
+                                        Capacidad (personas)
+                                    </label>
+                                    <input type="number"
+                                           class="form-control"
+                                           th:field="*{capacidad}"
+                                           min="0">
+                                </div>
+
+                                <hr class="my-4">
+
+                                <!-- Configuración -->
+                                <h6 class="fw-bold mb-3 text-danger">
+                                    <i class="bi bi-gear me-2"></i>Configuración
+                                </h6>
+
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-4">
+                                        <div class="form-check form-switch p-3 border rounded">
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{activo}"
+                                                   id="activo">
+                                            <label class="form-check-label fw-semibold" for="activo">
+                                                <i class="bi bi-check-circle text-success me-2"></i>Activo
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-check form-switch p-3 border rounded">
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{acepta_delivery}"
+                                                   id="delivery">
+                                            <label class="form-check-label fw-semibold" for="delivery">
+                                                <i class="bi bi-truck text-danger me-2"></i>Delivery
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-check form-switch p-3 border rounded">
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   th:field="*{acepta_recojo}"
+                                                   id="recojo">
+                                            <label class="form-check-label fw-semibold" for="recojo">
+                                                <i class="bi bi-bag text-danger me-2"></i>Recojo
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Botones -->
+                                <div class="d-flex gap-2 justify-content-end mt-4">
+                                    <a th:href="@{/chifafu/admin/locales}" class="btn btn-outline-secondary">
+                                        <i class="bi bi-x-circle me-2"></i>Cancelar
+                                    </a>
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-check-circle me-2"></i>Actualizar
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

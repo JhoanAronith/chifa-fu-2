@@ -1,40 +1,30 @@
 package com.app.chifafu.controller;
 
-import com.app.chifafu.dto.RegistroClienteDTO;
 import com.app.chifafu.model.Cliente;
 import com.app.chifafu.model.Usuario;
 import com.app.chifafu.service.ClienteService;
 import com.app.chifafu.service.UsuarioService;
-import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/chifafu/cliente")
-public class ClienteController {
+public class PerfilClienteController {
 
     private final UsuarioService usuarioService;
     private final ClienteService clienteService;
 
-    public ClienteController(UsuarioService usuarioService, ClienteService clienteService) {
+    public PerfilClienteController(UsuarioService usuarioService, ClienteService clienteService) {
         this.usuarioService = usuarioService;
         this.clienteService = clienteService;
-    }
-
-    //Pagina inicial de cliente
-    @GetMapping("/inicio")
-    public String mostrarInicioCliente() {
-        return "cliente/inicio";
     }
 
     //Pagina de perfil de cliente
@@ -61,18 +51,13 @@ public class ClienteController {
         return "cliente/perfil";
     }
 
+    //Actualizar datos del perfil
     @PostMapping("/actualizar")
-
     public String actualizarPerfil(@ModelAttribute("cliente") Cliente cliente,
                                    RedirectAttributes redirectAttributes) {
         clienteService.actualizarCliente(cliente);
         redirectAttributes.addFlashAttribute("mensaje", "Perfil actualizado correctamente");
         return "redirect:/chifafu/cliente/perfil";
-    }
-
-    @GetMapping("/pedidos")
-    public String mostrarPedidosCliente() {
-        return "cliente/pedidos";
     }
 
 }

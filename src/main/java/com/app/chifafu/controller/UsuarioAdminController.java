@@ -1,7 +1,6 @@
 package com.app.chifafu.controller;
 
 
-import com.app.chifafu.dto.RegistroClienteDTO;
 import com.app.chifafu.dto.RegistroUsuarioDTO;
 import com.app.chifafu.model.Usuario;
 import com.app.chifafu.service.UsuarioService;
@@ -17,11 +16,11 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/chifafu/admin/usuario")
-public class UsuarioController {
+public class UsuarioAdminController {
 
     private final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioAdminController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
 

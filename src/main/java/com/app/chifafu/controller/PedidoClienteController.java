@@ -43,6 +43,7 @@ public class PedidoClienteController {
         this.pagoService = pagoService;
     }
 
+    //Crear un nuevo pedido usando los datos del carrito
     @PostMapping("/crear")
     public String crearPedidoDesdeCarrito(
             @AuthenticationPrincipal CustomUserDetails userDetails,
@@ -68,7 +69,6 @@ public class PedidoClienteController {
             return "redirect:/chifafu/cliente/carrito/" + idCliente;
         }
 
-        // Crear pedido
         Pedido pedido = new Pedido();
         pedido.setCliente(cliente);
         pedido.setEstado(Pedido.EstadoPedido.PENDIENTE);
@@ -81,7 +81,6 @@ public class PedidoClienteController {
 
         Pedido pedidoCreado = pedidoService.crear(pedido);
 
-        // Crear detalles del pedido
         for (DetalleCarrito detalleCarrito : detallesCarrito) {
             DetallePedido detallePedido = new DetallePedido();
             detallePedido.setPedido(pedidoCreado);
@@ -93,13 +92,13 @@ public class PedidoClienteController {
             detallePedidoService.crear(detallePedido);
         }
 
-        // Limpiar carrito
         detalleCarritoService.eliminarPorCarrito(carrito.getId_carrito());
 
         redirectAttributes.addFlashAttribute("success", "Pedido creado. Completa la información");
         return "redirect:/chifafu/cliente/pedido/" + pedidoCreado.getId_pedido() + "/completar";
     }
 
+    //Mostrar página para completar los datos del pedido
     @GetMapping("/{idPedido}/completar")
     public String mostrarCompletarPedido(
             @PathVariable Long idPedido,
@@ -117,7 +116,6 @@ public class PedidoClienteController {
             return "redirect:/error";
         }
 
-        // Validar que el pedido no esté confirmado
         Pedido pedido = pedidoOpt.get();
         if (pedido.getEstado() != Pedido.EstadoPedido.PENDIENTE) {
             return "redirect:/chifafu/cliente/pedido/" + idPedido;
@@ -136,6 +134,7 @@ public class PedidoClienteController {
         return "cliente/pedido/completar-pedido";
     }
 
+    //Actualizar entrega de un pedido
     @PostMapping("/{idPedido}/actualizar-entrega")
     public String actualizarEntrega(
             @PathVariable Long idPedido,
@@ -162,7 +161,6 @@ public class PedidoClienteController {
 
         Pedido pedido = pedidoOpt.get();
 
-        // Validar que el pedido esté en estado PENDIENTE
         if (pedido.getEstado() != Pedido.EstadoPedido.PENDIENTE) {
             return "redirect:/chifafu/cliente/pedido/" + idPedido;
         }
@@ -205,6 +203,7 @@ public class PedidoClienteController {
         return "redirect:/chifafu/cliente/pedido/" + idPedido + "/pago";
     }
 
+    //Mostrar la página para realizar el pago
     @GetMapping("/{idPedido}/pago")
     public String mostrarPago(
             @PathVariable Long idPedido,
@@ -224,7 +223,6 @@ public class PedidoClienteController {
 
         Pedido pedido = pedidoOpt.get();
 
-        // Validar que tenga dirección o local
         if ((pedido.getTipo_entrega() == Pedido.TipoEntrega.DELIVERY && pedido.getDireccion() == null) ||
                 (pedido.getTipo_entrega() == Pedido.TipoEntrega.RECOJO_LOCAL && pedido.getLocal() == null)) {
             return "redirect:/chifafu/cliente/pedido/" + idPedido + "/completar";
@@ -241,6 +239,7 @@ public class PedidoClienteController {
         return "cliente/pedido/pago";
     }
 
+    //Procesar el pago de un pedido
     @PostMapping("/{idPedido}/procesar-pago")
     public String procesarPago(
             @PathVariable Long idPedido,
@@ -263,13 +262,11 @@ public class PedidoClienteController {
 
         Pedido pedido = pedidoOpt.get();
 
-        // Validar que el pedido esté en estado PENDIENTE
         if (pedido.getEstado() != Pedido.EstadoPedido.PENDIENTE) {
             redirectAttributes.addFlashAttribute("error", "Este pedido ya fue procesado");
             return "redirect:/chifafu/cliente/pedido/" + idPedido;
         }
 
-        // Crear pago
         Pago pago = new Pago();
         pago.setMonto(pedido.getTotal());
         pago.setMetodo_pago(metodo_pago);
@@ -287,6 +284,7 @@ public class PedidoClienteController {
         return "redirect:/chifafu/cliente/pedido/" + idPedido;
     }
 
+    //Ver el pedido por su id
     @GetMapping("/{idPedido}")
     public String verPedido(
             @PathVariable Long idPedido,
@@ -315,6 +313,7 @@ public class PedidoClienteController {
         return "cliente/pedido/ver-pedido";
     }
 
+    //Ver todos los pedidos de un usuario
     @GetMapping("/mis-pedidos")
     public String misPedidos(
             Model model,

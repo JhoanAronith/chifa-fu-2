@@ -20,12 +20,12 @@ import java.util.Date;
 
 @Controller
 @RequestMapping("/chifafu/public")
-public class PublicController {
+public class UsuarioPublicController {
 
     private final UsuarioService usuarioService;
     private final ClienteService clienteService;
 
-    public PublicController(UsuarioService usuarioService, ClienteService clienteService) {
+    public UsuarioPublicController(UsuarioService usuarioService, ClienteService clienteService) {
         this.usuarioService = usuarioService;
         this.clienteService = clienteService;
     }

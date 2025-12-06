@@ -26,14 +26,14 @@ public class LocalAdminController {
         return "administrador/locales/lista"; // vista thymeleaf
     }
 
-    // FORMULARIO: REGISTRAR
+    // MOstrar formulario para registrar un local
     @GetMapping("/formulario")
     public String nuevoLocalForm(Model model) {
         model.addAttribute("local", new Local());
         return "administrador/locales/formulario";
     }
 
-    // GUARDAR NUEVO
+    // Guardar nuevo local
     @PostMapping("/guardar")
     public String guardarLocal(@ModelAttribute("local") Local local,
                                RedirectAttributes redirect) {
@@ -43,7 +43,7 @@ public class LocalAdminController {
         return "redirect:/chifafu/admin/locales";
     }
 
-    // FORMULARIO: EDITAR
+    // Formulario para editar un local
     @GetMapping("/editar/{id}")
     public String editarLocalForm(@PathVariable Long id, Model model,
                                   RedirectAttributes redirect) {
@@ -59,7 +59,7 @@ public class LocalAdminController {
         return "administrador/locales/editar";
     }
 
-    // ACTUALIZAR
+    // ACtualizar un local
     @PostMapping("/actualizar")
     public String actualizarLocal(@ModelAttribute("local") Local local,
                                   RedirectAttributes redirect) {
@@ -69,7 +69,7 @@ public class LocalAdminController {
         return "redirect:/chifafu/admin/locales";
     }
 
-    // ELIMINAR
+    // Eliminar un local
     @GetMapping("/eliminar/{id}")
     public String eliminarLocal(@PathVariable Long id, RedirectAttributes redirect) {
         int filas = localService.eliminarLocal(id);
@@ -82,7 +82,7 @@ public class LocalAdminController {
         return "redirect:/chifafu/admin/locales";
     }
 
-    // ACTIVAR
+    // Activar un local
     @GetMapping("/activar/{id}")
     public String activar(@PathVariable Long id, RedirectAttributes redirect) {
         localService.activarLocal(id);
@@ -90,7 +90,7 @@ public class LocalAdminController {
         return "redirect:/chifafu/admin/locales";
     }
 
-    // DESACTIVAR
+    // Desactivar un local
     @GetMapping("/desactivar/{id}")
     public String desactivar(@PathVariable Long id, RedirectAttributes redirect) {
         localService.desactivarLocal(id);

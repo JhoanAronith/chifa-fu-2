@@ -24,27 +24,23 @@ public class PedidoAdminController {
         this.detallePedidoService = detallePedidoService;
     }
 
-    // ========== LISTAR TODOS LOS PEDIDOS ==========
+    //Listar todos los pedidos
     @GetMapping("/todos")
     public String listarTodosPedidos(Model model,
                                      @RequestParam(required = false) Pedido.EstadoPedido estado) {
-
         List<Pedido> pedidos;
-
         if (estado != null) {
             pedidos = pedidoService.obtenerPorEstado(estado);
             model.addAttribute("estadoFiltro", estado);
         } else {
             pedidos = pedidoService.obtenerTodos();
         }
-
         model.addAttribute("pedidos", pedidos);
         model.addAttribute("estados", Pedido.EstadoPedido.values());
-
         return "administrador/pedido/todos-pedidos";
     }
 
-    // ========== VER DETALLES DE UN PEDIDO ==========
+    //Ver detalles de un pedido
     @GetMapping("/{idPedido}")
     public String verPedido(@PathVariable Long idPedido, Model model) {
 
@@ -65,7 +61,7 @@ public class PedidoAdminController {
         return "administrador/pedido/ver-pedido-admin";
     }
 
-    // ========== CAMBIAR ESTADO DEL PEDIDO ==========
+    // cambiar estado de un pedido
     @PostMapping("/{idPedido}/cambiar-estado")
     public String cambiarEstado(@PathVariable Long idPedido,
                                 @RequestParam Pedido.EstadoPedido nuevoEstado,
@@ -90,7 +86,7 @@ public class PedidoAdminController {
         return "redirect:/chifafu/admin/pedido/" + idPedido;
     }
 
-    // ========== AGREGAR NOTAS AL PEDIDO ==========
+    // agregar notas a un pedido
     @PostMapping("/{idPedido}/agregar-notas")
     public String agregarNotas(@PathVariable Long idPedido,
                                @RequestParam String notas,
@@ -113,7 +109,7 @@ public class PedidoAdminController {
         return "redirect:/chifafu/admin/pedido/" + idPedido;
     }
 
-    // ========== BUSCAR PEDIDO POR NÚMERO ==========
+    //buscar pedidos por numero
     @GetMapping("/buscar")
     public String buscarPedido(@RequestParam String numeroPedido,
                                Model model) {
@@ -130,7 +126,7 @@ public class PedidoAdminController {
         return "redirect:/chifafu/admin/pedido/" + pedidoOpt.get().getId_pedido();
     }
 
-    // ========== FILTRAR POR ESTADO ==========
+    // filtrar por estado
     @GetMapping("/filtrar")
     public String filtrarPorEstado(@RequestParam Pedido.EstadoPedido estado,
                                    Model model) {
